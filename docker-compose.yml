@@ -1,0 +1,34 @@
+services:
+  app:
+    build:
+      context: .
+    ports:
+      - "8081:80"
+    networks:
+      - jaringanku-net
+    volumes:
+      - .:/var/www/html
+      - ./sessions:/var/www/html/sessions
+    environment:
+      - APACHE_RUN_USER=www-data
+      - APACHE_RUN_GROUP=www-data
+
+  db:
+    image: mysql:5.7
+    container_name: mysql_service
+    ports:
+      - "3308:3306"
+    networks:
+      - jaringanku-net
+    environment:
+      MYSQL_ROOT_PASSWORD: myrootpassword
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypassword
+      TZ: Asia/Jakarta
+    volumes:
+      - mysql_data:/var/lib/mysql 
+volumes:
+  mysql_data:
+networks:
+  jaringanku-net:
